@@ -1,0 +1,28 @@
+{
+  "name": "watermark",
+  "version": "1.0.0",
+  "description": "watermark to image app",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irakis/Watermark.gi.git"
+  },
+  "keywords": [
+    "node",
+    "app"
+  ],
+  "author": "Ireneusz Wyszomirski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/irakis/Watermark.gi/issues"
+  },
+  "homepage": "https://github.com/irakis/Watermark.gi#readme",
+  "dependencies": {
+    "inquirer": "6.5.0",
+    "jimp": "0.6.4",
+    "yarn": "^1.22.19"
+  }
+}
