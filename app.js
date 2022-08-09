@@ -3,7 +3,8 @@ const Jimp = require('jimp');
 const { existsSync } = require('node:fs');
 
 const addTextWatermarkToImage = async function (inputFile, outputFile, text) {
- 
+
+  try {
     const image = await Jimp.read(inputFile);
     const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
     const textData = {
@@ -13,12 +14,19 @@ const addTextWatermarkToImage = async function (inputFile, outputFile, text) {
     }
     image.print(font, 0, 0, textData, image.getWidth(), image.getHeight());
     await image.quality(100).writeAsync(outputFile)
-    console.log('Well done. Image with text is ready!')
-    startApp();
+  }
+  catch (err) {
+    console.log('Something went wrong... Try again!!!')
+  }
+
+  console.log('Well done. Image with text is ready!')
+
+  startApp();
 };
 
 const addImageWatermarkToImage = async function (inputFile, outputFile, watermarkFile) {
 
+  try {
     const image = await Jimp.read(inputFile);
     const watermark = await Jimp.read(watermarkFile);
     const x = image.getWidth() / 2 - watermark.getWidth() / 2;
@@ -29,8 +37,14 @@ const addImageWatermarkToImage = async function (inputFile, outputFile, watermar
       opacitySource: 0.5,
     });
     await image.quality(100).writeAsync(outputFile)
-    console.log('Well done. Image with watermark-image is ready!')
-    startApp();
+  }
+  catch (err) {
+    console.log('Something went wrong... Try again!!')
+  }
+  
+  console.log('Well done. Image with watermark-image is ready!')
+  
+  startApp();
 };
 
 const prepareOutputFilename = (filefullName) => {
@@ -62,8 +76,6 @@ const startApp = async () => {
 
   }]);
 
-  console.log('options:', options)
-
   if (options.watermarkType === 'Text watermark') {
     const text = await inquirer.prompt([{
       name: 'value',
@@ -72,7 +84,7 @@ const startApp = async () => {
     }]);
     options.watermarkText = text.value;
 
-    if(existsSync(`./img/${options.inputImage}`)){
+    if (existsSync(`./img/${options.inputImage}`)) {
       addTextWatermarkToImage('./img/' + options.inputImage, './img/' + prepareOutputFilename(options.inputImage), options.watermarkText)
     } else {
       console.log('Something went wrrong...Try it again.')
@@ -88,7 +100,7 @@ const startApp = async () => {
     }]);
     options.watermarkImage = image.filename;
 
-  if(existsSync(`./img/${image.filename}`) && existsSync(`./img/${options.inputImage}`)){
+    if (existsSync(`./img/${image.filename}`) && existsSync(`./img/${options.inputImage}`)) {
       addImageWatermarkToImage('./img/' + options.inputImage, './img/' + prepareOutputFilename(options.inputImage), './img/' + options.watermarkImage)
     } else {
       console.log('Something went wrong....Try it again.')
