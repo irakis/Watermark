@@ -12,7 +12,7 @@ const addTextWatermarkToImage = async function (inputFile, outputFile, text) {
       alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
       alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
     }
-    image.print(font, 0, 0, textData, image.getWidth(), image.getHeight());
+    image.print(font, a, 0, textData, image.getWidth(), image.getHeight());
     await image.quality(100).writeAsync(outputFile)
   }
   catch (err) {
@@ -41,8 +41,11 @@ const addImageWatermarkToImage = async function (inputFile, outputFile, watermar
   catch (err) {
     console.log('Something went wrong... Try again!!')
   }
-  
+  if(!err){
   console.log('Well done. Image with watermark-image is ready!')
+  } else {
+    console.log('Something went wrong... Try again!!')
+  }
   
   startApp();
 };
